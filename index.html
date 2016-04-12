@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Canvas Animation development</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <style>
+            canvas{
+                border:2px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="640" height="480">
+            Your browser doesn't not support canvas
+        </canvas>
+        <script>
+            $(document).ready(function(){
+                var FPS     =   30;
+                var cWidth  =   640;
+                var cHeight =   480;
+                var canvas  =   document.getElementById("canvas");
+                var ctx     =   canvas.getContext("2d");
+                var posX    =   0;
+                var posY    =   0;
+                /**
+                 *  Set height and width of canvas
+                 */
+                $("#canvas").css('width',cWidth);
+                $("#canvas").css('height',cHeight);
+                
+                var player  =   function() {
+                    this.width      =   40;
+                    this.height     =   40;
+                    this.posX       =   0;
+                    this.posY       =   0;
+                    this.draw   =   function() {
+                        ctx.fillRect(this.posX,this.posY,this.width,this.height);
+                    }
+                }            
+                var p1  =   new player();
+
+                setInterval(function(){
+                    update();
+                },1000/FPS);
+                
+                
+                function update() {
+                    ctx.clearRect(0,0,cWidth,cHeight);
+                    p1.draw();
+                    p1.posX +=10;
+                    if(p1.posX==cWidth){
+                        p1.posX=0;
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
