@@ -24,59 +24,18 @@ and open the template in the editor.
         <script>
             var socket = io.connect();
             $(document).ready(function () {
-                var canvas = document.getElementById("canvas");
-                var ctx = canvas.getContext('2d');
-                var FPS = 30;
                 var cWidth = 640;
                 var cHeight = 480;
-                var posX = 0;
-                var realPosX = 0;
-                var posY = 0;
-                var allPlayers  =   [];
-                var player = function () {
-                    this.width = 40;
-                    this.height = 40;
-                    this.posX = 0;
-                    this.posY = 0;
-                    this.id = '';
-                    this.draw = function () {
-                        ctx.fillRect(this.posX, this.posY, this.width, this.height);
+                var canvas = document.getElementById("canvas");
+                var ctx = canvas.getContext('2d');
+                ctx.font = '30px Arial';
+                socket.on("new_position",function(data){
+                    ctx.clearRect(0,0,cWidth,cHeight);
+                    for(var i=0;i<data.length;i++) {
+                        ctx.fillText('@',data[i].x,data[i].y);
                     }
-                }
-                var p1 = new player();
-
-                /**
-                 *  Set height and width of canvas
-                 */
-                $("#canvas").css('width', cWidth);
-                $("#canvas").css('height', cHeight);
-
-
-                socket.on('new_player', function (player_data) {
-                        for (i = 0; i < player_data.length; i++) {
-                            p1.width = player_data[i].width;
-                            p1.height = player_data[i].height;
-                            p1.posX = player_data[i].posX;
-                            p1.posY = player_data[i].posY;
-                            p1.id = player_data[i].id;
-                            allPlayers.push(p1);
-                        }
-                    });
-
-                setInterval(function () {
-                    update();
-                }, 1000 / FPS);
-                
-                function update() {
-                    ctx.clearRect(0, 0, cWidth, cHeight); 
-                    for(j=0;j<allPlayers.length;j++) {
-                        realPosX    +=   allPlayers[j].posX;
-                        ctx.fillRect(realPosX, allPlayers[j].posY, allPlayers[j].width, allPlayers[j].height);
-                    }
-                    if(realPosX==cWidth) realPosX=0;
-                    realPosX    +=10;
-                    console.log(allPlayers);
-                }
+                    console.log(data);
+                });
             });
         </script>
     </body>
