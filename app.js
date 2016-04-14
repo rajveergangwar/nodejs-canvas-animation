@@ -11,6 +11,10 @@ io.on('connection', function (socket) {
     socket.x    =   0;
     socket.y    =   0;
     SOCKET_LIST[socket.id]  =   socket;
+    
+    socket.on('disconnect',function(){
+       delete SOCKET_LIST[socket.id]; 
+    });
 });
 
 setInterval(function(){
