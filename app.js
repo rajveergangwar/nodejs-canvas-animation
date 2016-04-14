@@ -1,16 +1,23 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var canvas_data =   {cWidth:640,cheight:480};
 var SOCKET_LIST =   [];
 app.get('/', function (req, res) {
     res.sendfile('index.html');
 });
 
 io.on('connection', function (socket) {
+    socket.on('canvas_data',function(data){
+        canvas_data.cWidth      =   data.cWidth;
+        canvas_data.cHeight     =   data.cheight;
+    });
     socket.id   =   Math.random();
-    socket.x    =   0;
+    socket.x    =   Math.floor((Math.random()*canvas_data.cWidth) + 1);
     socket.y    =   0;
+    socket.num  =   Math.floor((Math.random()*9) + 1);
     SOCKET_LIST[socket.id]  =   socket;
+    
     
     socket.on('disconnect',function(){
        delete SOCKET_LIST[socket.id]; 
@@ -21,8 +28,7 @@ setInterval(function(){
     var holder  =   [];
     for(var i in SOCKET_LIST) {
         var socket  =   SOCKET_LIST[i];
-        socket.x++;
-        if(socket.y!=480)
+        if(socket.y!=canvas_data.height)
             socket.y++;
         else
             socket.y    = 0;
@@ -30,6 +36,7 @@ setInterval(function(){
         holder.push({
             x:socket.x,
             y:socket.y,
+            num:socket.num,
         });
     }
     

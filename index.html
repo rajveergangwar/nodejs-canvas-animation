@@ -29,10 +29,14 @@ and open the template in the editor.
                 var canvas = document.getElementById("canvas");
                 var ctx = canvas.getContext('2d');
                 ctx.font = '30px Arial';
+                socket.emit('canvas_data',{
+                    width:cWidth,
+                    height:cHeight,
+                })
                 socket.on("new_position",function(data){
                     ctx.clearRect(0,0,cWidth,cHeight);
                     for(var i=0;i<data.length;i++) {
-                        ctx.fillText('@',data[i].x,data[i].y);
+                        ctx.fillText(data[i].num,data[i].x,data[i].y);
                     }
                     console.log(data);
                 });
