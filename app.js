@@ -13,7 +13,8 @@ io.on('connection', function (socket) {
         canvas_data.cHeight     =   data.cheight;
     });
     socket.id   =   Math.random();
-    socket.x    =   Math.floor((Math.random()*canvas_data.cWidth) + 1);
+    socket.x    =  getRandomArbitrary(0,640);
+    console.log(socket.x);
     socket.y    =   0;
     socket.num  =   Math.floor((Math.random()*9) + 1);
     SOCKET_LIST[socket.id]  =   socket;
@@ -50,3 +51,7 @@ setInterval(function(){
 http.listen(3000, function () {
     console.log('listening on *:3000');
 });
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
