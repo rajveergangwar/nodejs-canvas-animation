@@ -1,7 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var canvas_data =   {cWidth:640,cheight:480};
+var canvas_data =   {cWidth:640,cHeight:480};
 var SOCKET_LIST =   [];
 app.get('/', function (req, res) {
     res.sendfile('index.html');
@@ -9,12 +9,11 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
     socket.on('canvas_data',function(data){
-        canvas_data.cWidth      =   data.cWidth;
-        canvas_data.cHeight     =   data.cheight;
+        canvas_data.cWidth      =   data.width;
+        canvas_data.cHeight     =   data.height;
     });
     socket.id   =   Math.random();
     socket.x    =  getRandomArbitrary(0,640);
-    console.log(socket.x);
     socket.y    =   0;
     socket.num  =   Math.floor((Math.random()*9) + 1);
     SOCKET_LIST[socket.id]  =   socket;
@@ -29,11 +28,14 @@ setInterval(function(){
     var holder  =   [];
     for(var i in SOCKET_LIST) {
         var socket  =   SOCKET_LIST[i];
-        if(socket.y!=canvas_data.height)
+        if(socket.y!=canvas_data.cHeight) {
             socket.y++;
-        else
-            socket.y    = 0;
-        
+            console.log(socket);
+            console.log(canvas_data.cHeight);
+        }else {
+            socket.y        =   0;
+            socket.num      =   Math.floor((Math.random()*9) + 1);
+        }
         holder.push({
             x:socket.x,
             y:socket.y,
@@ -52,6 +54,9 @@ http.listen(3000, function () {
     console.log('listening on *:3000');
 });
 
+/*
+ * Generating the ramdom number beween the range
+ */
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
