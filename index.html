@@ -14,11 +14,12 @@ and open the template in the editor.
         <style>
             canvas{
                 border:2px solid #ccc;
+                cursor: crosshair;
             }
         </style>
     </head>
     <body>
-        <canvas id="canvas" width="640" height="480">
+        <canvas id="canvas" width="640" height="480" tabindex="0">
             Your browser doesn't not support canvas
         </canvas>
         <script>
@@ -27,7 +28,9 @@ and open the template in the editor.
                 var cWidth = 640;
                 var cHeight = 480;
                 var canvas = document.getElementById("canvas");
+                canvas.addEventListener("click", dealWithKeyboard, false);
                 var ctx = canvas.getContext('2d');
+                var dataPos =   [];
                 ctx.font = '30px Arial';
                 socket.emit('canvas_data',{
                     width:cWidth,
@@ -36,10 +39,26 @@ and open the template in the editor.
                 socket.on("new_position",function(data){
                     ctx.clearRect(0,0,cWidth,cHeight);
                     for(var i=0;i<data.length;i++) {
+                        dataPos.push({"objX":data[i].x,"objY":data[i].y});
                         ctx.fillText(data[i].num,data[i].x,data[i].y);
                     }
-                    console.log(data);
                 });
+                
+                function dealWithKeyboard(e){
+                    clientX =   e.clientX;          
+                    clientY =   e.clientY;
+                    var objData         =   dataPos.pop();
+                    var rect1 = {x: objData.objX, y: objData.objY, width: 50, height: 50}
+                    var rect2 = {x: clientX, y: clientY, width: 50, height: 50}
+
+                    if (rect1.x < rect2.x + rect2.width &&
+                       rect1.x + rect1.width > rect2.x &&
+                       rect1.y < rect2.y + rect2.height &&
+                       rect1.height + rect1.y > rect2.y) {
+                        // collision detected!
+                        console.log("click number")
+                    }
+                }
             });
         </script>
     </body>

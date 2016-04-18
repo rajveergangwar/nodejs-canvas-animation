@@ -29,11 +29,10 @@ setInterval(function(){
     for(var i in SOCKET_LIST) {
         var socket  =   SOCKET_LIST[i];
         if(socket.y!=canvas_data.cHeight) {
-            socket.y++;
-            console.log(socket);
-            console.log(canvas_data.cHeight);
+            socket.y    +=5;
         }else {
             socket.y        =   0;
+            socket.x    =  getRandomArbitrary(0,640);
             socket.num      =   Math.floor((Math.random()*9) + 1);
         }
         holder.push({
