@@ -15,7 +15,6 @@ io.on('connection', function (socket) {
     socket.id   =   Math.random();
     socket.x    =  getRandomArbitrary(0,640);
     socket.y    =   0;
-    socket.num  =   Math.floor((Math.random()*9) + 1);
     SOCKET_LIST[socket.id]  =   socket;
     
     
@@ -33,12 +32,10 @@ setInterval(function(){
         }else {
             socket.y        =   0;
             socket.x    =  getRandomArbitrary(0,640);
-            socket.num      =   Math.floor((Math.random()*9) + 1);
         }
         holder.push({
             x:socket.x,
-            y:socket.y,
-            num:socket.num,
+            y:socket.y
         });
     }
     

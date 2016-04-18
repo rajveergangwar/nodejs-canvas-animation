@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+    To change this license header, choose License Headers in Project Properties.
+    To change this template file, choose Tools | Templates
+    and open the template in the editor.
+    -->
 <html>
     <head>
         <title>Canvas Animation development</title>
@@ -13,8 +13,8 @@ and open the template in the editor.
         <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
         <style>
             canvas{
-                border:2px solid #ccc;
-                cursor: crosshair;
+            border:2px solid #ccc;
+            cursor: crosshair;
             }
         </style>
     </head>
@@ -40,7 +40,12 @@ and open the template in the editor.
                     ctx.clearRect(0,0,cWidth,cHeight);
                     for(var i=0;i<data.length;i++) {
                         dataPos.push({"objX":data[i].x,"objY":data[i].y});
-                        ctx.fillText(data[i].num,data[i].x,data[i].y);
+                        ctx.beginPath();
+                        ctx.arc(data[i].x,data[i].y, 20, 0, Math.PI*2);
+                        ctx.fillStyle = "#0095DD";
+                        ctx.fill();
+                        ctx.closePath();
+                        //ctx.fillText(data[i].num,data[i].x,data[i].y);
                     }
                 });
                 
@@ -50,7 +55,7 @@ and open the template in the editor.
                     var objData         =   dataPos.pop();
                     var rect1 = {x: objData.objX, y: objData.objY, width: 50, height: 50}
                     var rect2 = {x: clientX, y: clientY, width: 50, height: 50}
-
+            
                     if (rect1.x < rect2.x + rect2.width &&
                        rect1.x + rect1.width > rect2.x &&
                        rect1.y < rect2.y + rect2.height &&
