@@ -27,6 +27,7 @@ and open the template in the editor.
             $(document).ready(function () {
                 var cWidth = 640;
                 var cHeight = 480;
+                var color = {1:"red",2:"green",3:"blue",4:"pink",5:"megenta",6:"orange",7:"skyblue",8:"black",9:"gray"};
                 var canvas = document.getElementById("canvas");
                 canvas.addEventListener("click", dealWithKeyboard, false);
                 var ctx = canvas.getContext('2d');
@@ -40,7 +41,8 @@ and open the template in the editor.
                     ctx.clearRect(0,0,cWidth,cHeight);
                     for(var i=0;i<data.length;i++) {
                         dataPos.push({"objX":data[i].x,"objY":data[i].y});
-                        ctx.fillStyle = "#FF00FF";
+                        ctx.fillStyle = color[data[i].num];
+                        console.log(data[i].num);
                         ctx.strokeStyle = "#000000";
                         ctx.lineWidth = 2;
                         ctx.beginPath();
@@ -63,7 +65,6 @@ and open the template in the editor.
                        rect1.x + rect1.width > rect2.x &&
                        rect1.y < rect2.y + rect2.height &&
                        rect1.height + rect1.y > rect2.y) {
-                        // collision detected!
                         console.log("click number")
                     }
                 }
