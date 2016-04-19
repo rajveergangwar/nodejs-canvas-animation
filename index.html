@@ -41,7 +41,7 @@ and open the template in the editor.
                     ctx.clearRect(0,0,cWidth,cHeight);
                     for(var i=0;i<data.length;i++) {
                         dataPos.push({"objX":data[i].x,"objY":data[i].y});
-                        ctx.fillStyle = color[data[i].num];
+                        ctx.fillStyle = data[i].num;
                         console.log(data[i].num);
                         ctx.strokeStyle = "#000000";
                         ctx.lineWidth = 2;
@@ -50,7 +50,6 @@ and open the template in the editor.
                         ctx.closePath();
                         ctx.fill();
                         ctx.stroke();
-                        //ctx.fillText(data[i].num,data[i].x,data[i].y);
                     }
                 });
                 
@@ -65,9 +64,11 @@ and open the template in the editor.
                        rect1.x + rect1.width > rect2.x &&
                        rect1.y < rect2.y + rect2.height &&
                        rect1.height + rect1.y > rect2.y) {
-                        console.log("click number")
+                       socket.emit("collision_detacted",rect1)
+                        console.log("click number");
                     }
                 }
+                
             });
         </script>
     </body>
